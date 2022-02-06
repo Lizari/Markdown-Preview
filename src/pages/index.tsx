@@ -15,7 +15,7 @@ export default function Home() {
     const modalRef = useRef<{
         toggle(): void
     }>(null);
-    const [isLargerThanHD] = useMediaQuery('(min-width: 1920px)');
+    const [isLargerThanHD] = useMediaQuery('(min-width: 1720px)');
 
     const modalOpen = () => {
         if (modalRef.current) modalRef.current?.toggle();
@@ -25,7 +25,7 @@ export default function Home() {
         <Container maxW={"9xl"} p={"25px"}>
             <UploadForm content={content} ref={modalRef}/>
             <Header/>
-            <Stack pt={"7vh"} justify={"right"} direction={isLargerThanHD ? "row" : "column"} spacing={2}>
+            <Stack pt={"7vh"} justify={"right"} direction={"row"} spacing={2}>
                 <Button colorScheme={"red"}
                         variant={"outline"}
                         onClick={() => modalOpen()}>
@@ -36,7 +36,7 @@ export default function Home() {
                         onClick={() => toggleMarkdown.toggle()}>{showMarkdown ? "Close" : "Show"}
                 </Button>
             </Stack>
-            <Stack direction={"row"} pt={"5px"} spacing={5}>
+            <Stack direction={isLargerThanHD ? "row" : "column"} pt={"5px"} spacing={5}>
                 <Box minW={showMarkdown ? "4xl" : "full"}>
                     <Textarea placeholder={"Markdownを入力"}
                               size={"md"}
