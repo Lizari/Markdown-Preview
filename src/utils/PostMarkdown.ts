@@ -6,7 +6,7 @@ const client = axios.create({
     baseURL: Config.API_URL,
 });
 
-const PostMarkdown = (props: Post) => {
+export const post = (props: Post) => {
     const formData = new FormData();
     const data = [
         "===",
@@ -29,10 +29,8 @@ const PostMarkdown = (props: Post) => {
     });
 }
 
-const stringToFile = (title: string, content: BlobPart[]) => {
+export const stringToFile = (title: string, content: BlobPart[]) => {
     const blob = new Blob(content, { type: "text/markdown" });
 
     return new File([blob], `${title}.md`, {type: "type/markdown "});
 }
-
-export default PostMarkdown;

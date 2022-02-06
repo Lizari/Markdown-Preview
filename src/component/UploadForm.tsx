@@ -15,7 +15,7 @@ import {
     Input, Tag, TagLabel,
     useBoolean
 } from "@chakra-ui/react";
-import PostMarkdown from "@/utils/PostMarkdown";
+import { post } from "@/utils/PostMarkdown";
 
 type FormProps = {
     content: string
@@ -81,7 +81,7 @@ const UploadForm = forwardRef<{toggle(): void}, FormProps>((props, ref) => {
                             colorScheme={result ? "blue" : "red"}
                             mr={2}
                             onClick={() => async () => {
-                                const result = await PostMarkdown({
+                                const result = await post({
                                     title: title,
                                     description: description,
                                     thumbnail: thumbnail,
