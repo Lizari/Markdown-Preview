@@ -2,7 +2,7 @@ import React, {useRef, useState} from "react";
 import {
     Box, Button, Container,
     Stack,
-    Textarea, useBoolean
+    Textarea, useBoolean, useMediaQuery
 } from "@chakra-ui/react";
 import ResizeTextarea from "react-textarea-autosize";
 import Markdown from "@/component/Markdown";
@@ -15,6 +15,7 @@ export default function Home() {
     const modalRef = useRef<{
         toggle(): void
     }>(null);
+    const [isLargerThanHD] = useMediaQuery('(min-width: 1920px)');
 
     const modalOpen = () => {
         if (modalRef.current) modalRef.current?.toggle();
@@ -24,7 +25,7 @@ export default function Home() {
         <Container maxW={"9xl"} p={"25px"}>
             <UploadForm content={content} ref={modalRef}/>
             <Header/>
-            <Stack pt={"7vh"} justify={"right"} direction={"row"} spacing={2}>
+            <Stack pt={"7vh"} justify={"right"} direction={isLargerThanHD ? "row" : "column"} spacing={2}>
                 <Button colorScheme={"red"}
                         variant={"outline"}
                         onClick={() => modalOpen()}>
