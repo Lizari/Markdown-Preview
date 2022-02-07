@@ -23,7 +23,7 @@ export default function Home() {
 
     // UploadForm, SaveFormはref登録においてあるだけ
     return(
-        <Container maxW={"9xl"} p={"25px"}>
+        <Container maxW={"8xl"} p={"25px"}>
             <UploadForm content={content} ref={modalRef}/>
             <SaveForm content={content} ref={saveRef}/>
             <Header/>
@@ -45,27 +45,29 @@ export default function Home() {
                 <Spacer/>
                 <Button colorScheme={"teal"}
                         variant={"outline"}
-                        onClick={() => toggleMarkdown.toggle()}>{showMarkdown ? "Close" : "Show"}
+                        onClick={() => toggleMarkdown.toggle()}>{showMarkdown ? "Hide" : "Show"}
                 </Button>
             </Stack>
-            <Stack direction={isLargerThan ? "row" : "column"} pt={"5px"} spacing={5}>
-                <Box minW={showMarkdown ? "20cm" : "full"}>
+            <Stack direction={isLargerThan ? "row" : "column"} pt={"15px"} spacing={5}>
+                <Box minW={showMarkdown ? "16cm" : "full"}>
                     <Textarea placeholder={"Markdownを入力"}
                               size={"md"}
                               isFullWidth={true}
                               resize={"none"}
                               overflow={"hidden"}
-                              minRows={30}
+                              minRows={20}
+                              margin={"auto"}
                               as={ResizeTextarea}
                               onChange={(e) => setContent(e.target.value)}/>
                 </Box>
                 {showMarkdown ? <Box border={"1px"}
+                                     borderStyle={"solid"}
                                      borderRadius={"md"}
-                                     borderColor={"whiteAlpha.300"}
+                                     borderColor={"inherit"}
                                      p={"10px"}
-                                     maxW={"full"}>
+                                     w={"3xl"}>
                                     <Markdown content={content}/>
-                            </Box> : ""}
+                                </Box> : ""}
             </Stack>
         </Container>
     )
