@@ -1,9 +1,5 @@
 import React, {useRef, useState} from "react";
-import {
-    Box, Button, Container, Spacer,
-    Stack,
-    Textarea, useBoolean, useMediaQuery
-} from "@chakra-ui/react";
+import {Box, Button, Container, Spacer, Stack, Textarea, useBoolean, useMediaQuery} from "@chakra-ui/react";
 import ResizeTextarea from "react-textarea-autosize";
 import Markdown from "@/component/Markdown";
 import Header from "@/component/Header";
@@ -19,30 +15,58 @@ export default function Home() {
     const saveRef = useRef<{
         toggle(): void
     }>(null);
-    const [isLargerThan] = useMediaQuery('(min-width: 1620px)');
+    const inputRef = useRef<HTMLInputElement | null>(null);
+    const [isLargerThan] = useMediaQuery('(min-width: 1460px)');
 
     // UploadForm, SaveFormはref登録においてあるだけ
     return(
         <Container maxW={"8xl"} p={"25px"}>
+            <input type={"file"}
+                   accept={".md"}
+                   multiple={false}
+                   style={{display: "none"}}
+                   ref={inputRef}
+                   onInput={(e) => {
+                       const { target } = e;
+
+                       if (!(target instanceof HTMLInputElement)) return;
+                       if (target.files && target.files.length > 0) {
+                           const file = target.files[0];
+                           const reader = new FileReader();
+
+                           reader.onload = () => {
+                               const { result } = reader;
+
+                               if (result && !(result instanceof ArrayBuffer)) {
+                                   console.log(result)
+                                   setContent(result);
+                               }
+                           }
+                           reader.readAsText(file, "utf-8");
+                       }
+                       // clear files
+                       target.value = "";
+                   }}/>
             <UploadForm content={content} ref={modalRef}/>
             <SaveForm content={content} ref={saveRef}/>
             <Header/>
             <Stack display={"flex"} pt={"7vh"} justifyContent={"left"} direction={"row"} spacing={2}>
                 <Button colorScheme={"twitter"}
                         variant={"outline"}
-                        onClick={() => {
-                            if (saveRef.current) saveRef.current.toggle();
-                        }}>
+                        onClick={() => saveRef.current?.toggle()}>
                     Save
                 </Button>
-                <Button colorScheme={"red"}
+                <Button colorScheme={"twitter"}
                         variant={"outline"}
-                        onClick={() => {
-                            if (modalRef.current) modalRef.current.toggle();
-                        }}>
-                    Upload
+                        onClick={() => inputRef.current?.click()}>
+                    Load
                 </Button>
                 <Spacer/>
+                <Button colorScheme={"red"}
+                        variant={"outline"}
+                        onClick={() => modalRef.current?.toggle()}>
+                    Upload
+                </Button>
                 <Button colorScheme={"teal"}
                         variant={"outline"}
                         onClick={() => toggleMarkdown.toggle()}>{showMarkdown ? "Hide" : "Show"}
@@ -58,10 +82,10 @@ export default function Home() {
                               minRows={20}
                               margin={"auto"}
                               as={ResizeTextarea}
+                              value={content}
                               onChange={(e) => setContent(e.target.value)}/>
                 </Box>
-                {showMarkdown ? <Box border={"1px"}
-                                     borderStyle={"solid"}
+                {showMarkdown ? <Box border={"1px solid"}
                                      borderRadius={"md"}
                                      borderColor={"inherit"}
                                      p={"10px"}
