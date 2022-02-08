@@ -34,9 +34,9 @@ const Markdown: React.VFC<{ content: string }> = (props) => {
                        ]}
                        components={{
                            code: ({node, inline, className, children, ...props}) => {
-                               const filename = className ? className.split(":")[1] : "";
-                               const match = /language-(\w+)/.exec(className || '');
-                               const inlineName = filename !== null ? filename + "\n\n" : "";
+                               const filename: string | null = className ? className.split(":")[1] : null;
+                               const match: RegExpExecArray | null = /language-(\w+)/.exec(className || '');
+                               const inlineName: string = filename !== null ? filename + "\n\n" : "";
                                return !inline && match ? (
                                        <SyntaxHighlighter style={colorMode == "dark" ? vscDarkPlus : vs}
                                                           language={match[1]}
