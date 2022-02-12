@@ -22,6 +22,8 @@ type FormProps = {
 }
 
 const UploadForm = forwardRef<{toggle(): void}, FormProps>((props, ref) => {
+    const [id, setID] = useState("");
+    const [password, setPassword] = useState("");
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [thumbnail, setThumbnail] = useState("");
@@ -32,17 +34,9 @@ const UploadForm = forwardRef<{toggle(): void}, FormProps>((props, ref) => {
     useImperativeHandle(ref, () => ({
         toggle: () => {
             toggleOpen.toggle();
-            resetState();
+            setResult(false);
         }
     }), []);
-
-    const resetState = () => {
-        setTitle("");
-        setDescription("");
-        setThumbnail("");
-        setTags([""]);
-        setResult(false);
-    }
 
     return(
         <Modal isOpen={isOpen} onClose={toggleOpen.toggle}>
@@ -51,21 +45,29 @@ const UploadForm = forwardRef<{toggle(): void}, FormProps>((props, ref) => {
                 <ModalHeader>Upload</ModalHeader>
                 <ModalCloseButton/>
                 <ModalBody pb={6}>
-                    <FormControl>
+                    <FormControl isRequired>
+                        <FormLabel>ID</FormLabel>
+                        <Input value={id} onChange={(e) => setID(e.target.value)}/>
+                    </FormControl>
+                    <FormControl isRequired>
+                        <FormLabel>パスワード</FormLabel>
+                        <Input value={password} onChange={(e) => setPassword(e.target.value)}/>
+                    </FormControl>
+                    <FormControl isRequired>
                         <FormLabel>タイトル</FormLabel>
-                        <Input onChange={(e) => setTitle(e.target.value)}/>
+                        <Input value={title} onChange={(e) => setTitle(e.target.value)}/>
                     </FormControl>
-                    <FormControl>
+                    <FormControl isRequired>
                         <FormLabel>説明</FormLabel>
-                        <Input onChange={(e) => setDescription(e.target.value)}/>
+                        <Input value={description} onChange={(e) => setDescription(e.target.value)}/>
                     </FormControl>
-                    <FormControl>
+                    <FormControl isRequired>
                         <FormLabel>サムネイル</FormLabel>
-                        <Input type={"url"} onChange={(e) => setThumbnail(e.target.value)}/>
+                        <Input value={thumbnail} type={"url"} onChange={(e) => setThumbnail(e.target.value)}/>
                     </FormControl>
-                    <FormControl>
+                    <FormControl isRequired>
                         <FormLabel>タグ</FormLabel>
-                        <Input onChange={(e) => setTags(e.target.value.split(" "))}/>
+                        <Input value={tags} onChange={(e) => setTags(e.target.value.split(" "))}/>
                         {tags.map((value =>
                             <Tag color={"teal"}
                                  bg={"green.100"}
@@ -81,7 +83,7 @@ const UploadForm = forwardRef<{toggle(): void}, FormProps>((props, ref) => {
                             colorScheme={result ? "blue" : "red"}
                             mr={2}
                             onClick={async () => {
-                                const result: boolean | undefined = await post({
+                                const result: boolean | undefined = await post(id, password, {
                                     title: title,
                                     description: description,
                                     thumbnail: thumbnail,
@@ -106,7 +108,7 @@ const validateURL = (url: string): boolean => {
 }
 
 const validateForm = (title: string, description: string, tags: Array<String>, thumbnail: string): boolean => {
-    return title === null || description === null || tags.length === 0 || validateURL(thumbnail);
+    return title === "" || description === "" || tags.length === 0 || validateURL(thumbnail);
 }
 
 export default UploadForm

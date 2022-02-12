@@ -4,13 +4,9 @@ import axios from "axios";
 
 const client = axios.create({
     baseURL: Config.API_URL,
-    auth: {
-        username: Config.USER_ID,
-        password: Config.PASSWORD
-    }
 });
 
-export const post = (props: Post): Promise<boolean | undefined> => {
+export const post = (id: string, password: string, props: Post): Promise<boolean | undefined> => {
     console.log(Config.USER_ID, Config.PASSWORD);
     
     const formData = new FormData();
@@ -25,6 +21,10 @@ export const post = (props: Post): Promise<boolean | undefined> => {
     formData.append("file", stringToFile(props.title, [data]));
 
     return client.post("/blog/upload", formData, {
+        auth: {
+          username: id,
+          password: password
+        },
         headers: {
             "Content-Type": "multipart/from-data",
         },
