@@ -80,8 +80,8 @@ const UploadForm = forwardRef<{toggle(): void}, FormProps>((props, ref) => {
                     <Button isDisabled={validateForm(title, description, tags, thumbnail)}
                             colorScheme={result ? "blue" : "red"}
                             mr={2}
-                            onClick={() => async () => {
-                                const result = await post({
+                            onClick={async () => {
+                                const result: boolean | undefined = await post({
                                     title: title,
                                     description: description,
                                     thumbnail: thumbnail,

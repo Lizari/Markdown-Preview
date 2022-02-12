@@ -4,9 +4,15 @@ import axios from "axios";
 
 const client = axios.create({
     baseURL: Config.API_URL,
+    auth: {
+        username: Config.USER_ID,
+        password: Config.PASSWORD
+    }
 });
 
-export const post = (props: Post) => {
+export const post = (props: Post): Promise<boolean | undefined> => {
+    console.log(Config.USER_ID, Config.PASSWORD);
+    
     const formData = new FormData();
     const data = [
         "===",
@@ -29,7 +35,7 @@ export const post = (props: Post) => {
     });
 }
 
-export const stringToFile = (title: string, content: BlobPart[]) => {
+export const stringToFile = (title: string, content: BlobPart[]): File => {
     const blob = new Blob(content, { type: "text/markdown" });
 
     return new File([blob], `${title}.md`, {type: "type/markdown "});
