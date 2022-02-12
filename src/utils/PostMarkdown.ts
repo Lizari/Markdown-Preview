@@ -7,8 +7,6 @@ const client = axios.create({
 });
 
 export const post = (id: string, password: string, props: Post): Promise<boolean | undefined> => {
-    console.log(Config.USER_ID, Config.PASSWORD);
-    
     const formData = new FormData();
     const data = [
         "===",

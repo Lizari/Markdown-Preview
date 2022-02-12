@@ -16,9 +16,8 @@ export default function Home() {
         toggle(): void
     }>(null);
     const inputRef = useRef<HTMLInputElement | null>(null);
-    const [isLargerThan] = useMediaQuery('(min-width: 1460px)');
+    const [isNotSmallScreen] = useMediaQuery('(min-width: 1100px)');
 
-    // UploadForm, SaveFormはref登録においてあるだけ
     return(
         <Container maxW={"8xl"} p={"25px"}>
             <input type={"file"}
@@ -72,7 +71,7 @@ export default function Home() {
                         onClick={() => toggleMarkdown.toggle()}>{showMarkdown ? "Hide" : "Show"}
                 </Button>
             </Stack>
-            <Stack direction={isLargerThan ? "row" : "column"} pt={"15px"} spacing={5}>
+            <Stack direction={isNotSmallScreen ? "row" : "column"} pt={"15px"} spacing={5}>
                 <Box minW={showMarkdown ? "16cm" : "full"}>
                     <Textarea placeholder={"Markdownを入力"}
                               size={"md"}
