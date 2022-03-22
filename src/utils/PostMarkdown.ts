@@ -4,6 +4,7 @@ import axios from "axios";
 
 const client = axios.create({
     baseURL: Config.API_URL,
+    withCredentials: true,
 });
 
 export const post = (id: string, password: string, props: Post): Promise<boolean | undefined> => {
