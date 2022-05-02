@@ -1,4 +1,4 @@
-import Post from "@/entity/Post";
+import {Post} from "@/entity/Post";
 import {Config} from "@/libs/Config";
 import axios from "axios";
 
