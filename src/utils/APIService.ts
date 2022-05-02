@@ -8,7 +8,7 @@ const client = axios.create({
 });
 
 export const get = () => {
-    return client.get("/all?include=true");
+    return client.get("/blog/all?include=true");
 }
 
 export const post = (id: string, password: string, props: Post): Promise<boolean | undefined> => {

@@ -85,7 +85,6 @@ export default function Home() {
                 <Box minW={showMarkdown ? "16cm" : "full"}>
                     <Textarea placeholder={"Markdownを入力"}
                               size={"md"}
-                              isFullWidth={true}
                               resize={"none"}
                               overflow={"hidden"}
                               minRows={20}
