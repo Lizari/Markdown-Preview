@@ -7,6 +7,10 @@ const client = axios.create({
     withCredentials: true,
 });
 
+export const get = () => {
+    return client.get("/all?include=true");
+}
+
 export const post = (id: string, password: string, props: Post): Promise<boolean | undefined> => {
     const formData = new FormData();
     const data = [

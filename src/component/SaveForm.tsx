@@ -1,7 +1,7 @@
 import {forwardRef, useImperativeHandle, useRef, useState} from "react";
 import {Button, FormControl, FormLabel, Input, useBoolean} from "@chakra-ui/react";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay} from "@chakra-ui/modal";
-import {stringToFile} from "@/utils/PostMarkdown";
+import {stringToFile} from "@/utils/APIService";
 
 type SaveProps = {
     content: string,
