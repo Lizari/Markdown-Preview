@@ -15,7 +15,7 @@ import {
     Input, Tag, TagLabel,
     useBoolean
 } from "@chakra-ui/react";
-import { post } from "@/utils/PostMarkdown";
+import { post } from "@/utils/APIService";
 
 type FormProps = {
     content: string
@@ -69,7 +69,8 @@ const UploadForm = forwardRef<{toggle(): void}, FormProps>((props, ref) => {
                         <FormLabel>タグ</FormLabel>
                         <Input value={tags} onChange={(e) => setTags(e.target.value.split(" "))}/>
                         {tags.map((value =>
-                            <Tag color={"teal"}
+                            <Tag key={value}
+                                 color={"teal"}
                                  bg={"green.100"}
                                  mr={2}
                                  mt={2}>

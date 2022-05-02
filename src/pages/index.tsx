@@ -5,15 +5,19 @@ import Markdown from "@/component/Markdown";
 import Header from "@/component/Header";
 import UploadForm from "@/component/UploadForm";
 import SaveForm from "@/component/SaveForm";
+import BlogList from "@/component/BlogList";
 
 export default function Home() {
     const [showMarkdown, toggleMarkdown] = useBoolean(false);
-    const [content, setContent] = useState("");
+    const [content, setContent] = useState<string>("");
     const modalRef = useRef<{
         toggle(): void
     }>(null);
     const saveRef = useRef<{
         toggle(): void
+    }>(null);
+    const loadRef = useRef<{
+    toggle(): void
     }>(null);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [isNotSmallScreen] = useMediaQuery('(min-width: 1100px)');
@@ -48,6 +52,7 @@ export default function Home() {
                    }}/>
             <UploadForm content={content} ref={modalRef}/>
             <SaveForm content={content} ref={saveRef}/>
+            <BlogList setContent={setContent} ref={loadRef}/>
             <Header/>
             <Stack display={"flex"} pt={"7vh"} justifyContent={"left"} direction={"row"} spacing={2}>
                 <Button colorScheme={"twitter"}
@@ -59,6 +64,11 @@ export default function Home() {
                         variant={"outline"}
                         onClick={() => inputRef.current?.click()}>
                     Load
+                </Button>
+                <Button colorScheme={"twitter"}
+                        variant={"outline"}
+                        onClick={() => loadRef.current?.toggle()}>
+                    Load from API
                 </Button>
                 <Spacer/>
                 <Button colorScheme={"red"}
