@@ -12,11 +12,10 @@ const Header: React.FC = () => {
                 icon={colorMode == "dark" ? <FaMoon size={"32px"}/>: <FaSun size={"32px"}/>}
                 size={"32px"}
                 bg={"none"}
-                _focus={{_focus: "none"}}
+                _focus={{"&:focus": "none"}}
                 aria-label={"Color mode switch"}
                 onClick={() => toggleColorMode()}/>
         </HStack>
     )
 }
-
 export default Header;
