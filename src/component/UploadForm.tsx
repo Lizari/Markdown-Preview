@@ -15,7 +15,7 @@ import {
     Input, Tag, TagLabel,
     useBoolean
 } from "@chakra-ui/react";
-import { post } from "@/utils/APIService";
+import { postArticle } from "@/utils/APIService";
 
 type FormProps = {
     content: string
@@ -47,27 +47,27 @@ const UploadForm = forwardRef<{toggle(): void}, FormProps>((props, ref) => {
                 <ModalBody pb={6}>
                     <FormControl isRequired>
                         <FormLabel>ID</FormLabel>
-                        <Input value={id} onChange={(e) => setID(e.target.value)}/>
+                        <Input value={id} onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setID(e.target.value)}/>
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>パスワード</FormLabel>
-                        <Input value={password} onChange={(e) => setPassword(e.target.value)}/>
+                        <Input value={password} onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setPassword(e.target.value)}/>
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>タイトル</FormLabel>
-                        <Input value={title} onChange={(e) => setTitle(e.target.value)}/>
+                        <Input value={title} onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setTitle(e.target.value)}/>
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>説明</FormLabel>
-                        <Input value={description} onChange={(e) => setDescription(e.target.value)}/>
+                        <Input value={description} onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setDescription(e.target.value)}/>
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>サムネイル</FormLabel>
-                        <Input value={thumbnail} type={"url"} onChange={(e) => setThumbnail(e.target.value)}/>
+                        <Input value={thumbnail} type={"url"} onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setThumbnail(e.target.value)}/>
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>タグ</FormLabel>
-                        <Input value={tags} onChange={(e) => setTags(e.target.value.split(" "))}/>
+                        <Input value={tags} onChange={(e: { target: { value: string; }; }) => setTags(e.target.value.split(" "))}/>
                         {tags.map((value =>
                             <Tag key={value}
                                  color={"teal"}
@@ -84,14 +84,13 @@ const UploadForm = forwardRef<{toggle(): void}, FormProps>((props, ref) => {
                             colorScheme={result ? "blue" : "red"}
                             mr={2}
                             onClick={async () => {
-                                const result: boolean | undefined = await post(id, password, {
+                                const result: boolean | undefined = await postArticle(id, password, {
                                     title: title,
                                     description: description,
                                     thumbnail: thumbnail,
                                     tags: tags,
                                     content: props.content
                                 });
-                                // undefined確認用
                                 if (result) setResult(result);
                             }
                     }>{result ? "Succeed" : "Upload"}</Button>

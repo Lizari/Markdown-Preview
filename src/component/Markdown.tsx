@@ -24,7 +24,7 @@ import {
 } from "@chakra-ui/react";
 import {ExternalLinkIcon} from "@chakra-ui/icons";
 
-const Markdown: React.VFC<{ content: string }> = (props) => {
+const Markdown: React.FC<{ content: string }> = (props) => {
     const { colorMode } = useColorMode();
     return(
         <ReactMarkdown children={props.content}
@@ -38,6 +38,7 @@ const Markdown: React.VFC<{ content: string }> = (props) => {
                                const match: RegExpExecArray | null = /language-(\w+)/.exec(className || '');
                                const inlineName: string = filename !== null ? filename + "\n\n" : "";
                                return !inline && match ? (
+                                        //@ts-ignore overload error
                                        <SyntaxHighlighter style={colorMode == "dark" ? vscDarkPlus : vs}
                                                           language={match[1]}
                                                           PreTag={"div"}

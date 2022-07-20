@@ -9,9 +9,9 @@ import {
 } from "@chakra-ui/modal";
 import {Box, Button, Stack, Tag, TagLabel, Text, useBoolean} from "@chakra-ui/react";
 import React, {Dispatch, forwardRef, SetStateAction, useImperativeHandle, useState} from "react";
-import {PostFull} from "@/entity/Post";
 import {get} from "@/utils/APIService";
 import matter from "gray-matter";
+import { Article } from "@/entity/Article";
 
 type Props = {
     setContent: Dispatch<SetStateAction<string>>
@@ -19,7 +19,7 @@ type Props = {
 
 const BlogList = forwardRef<{toggle(): void}, Props>((props, ref) => {
     const [isOpen, toggleOpen] = useBoolean(false);
-    const [data, setData] = useState<Array<PostFull>>([]);
+    const [data, setData] = useState<Article[]>([]);
 
     useImperativeHandle(ref, () => ({
         toggle: async () => {
@@ -37,7 +37,7 @@ const BlogList = forwardRef<{toggle(): void}, Props>((props, ref) => {
                 <DrawerHeader>Blog List</DrawerHeader>
                 <DrawerBody>
                     <Stack>
-                        {data.map((value: PostFull) => {
+                        {data.map((value: Article) => {
                             return (
                                 <Box>
                                     <Button onClick={() => {

@@ -1,4 +1,4 @@
-import {forwardRef, useImperativeHandle, useRef, useState} from "react";
+import {forwardRef, SetStateAction, useImperativeHandle, useRef, useState} from "react";
 import {Button, FormControl, FormLabel, Input, useBoolean} from "@chakra-ui/react";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay} from "@chakra-ui/modal";
 import {stringToFile} from "@/utils/APIService";
@@ -10,7 +10,7 @@ type SaveProps = {
 const SaveForm = forwardRef<{toggle(): void}, SaveProps>((props, ref) => {
     const [isOpen, toggleOpen] = useBoolean(false);
     const [title, setTitle] = useState("");
-    const saveButtonRef = useRef(null);
+    const saveButtonRef = useRef<HTMLAnchorElement>(null);
 
     useImperativeHandle(ref, () => ({
         toggle: () => {
@@ -21,8 +21,7 @@ const SaveForm = forwardRef<{toggle(): void}, SaveProps>((props, ref) => {
 
     return(
         <div>
-            <a ref={saveButtonRef}
-               download={`${title}.md`}/>
+            <a ref={saveButtonRef} download={`${title}.md`}/>
             <Modal isOpen={isOpen} onClose={toggleOpen.toggle}>
                 <ModalOverlay/>
                 <ModalContent>
@@ -30,7 +29,7 @@ const SaveForm = forwardRef<{toggle(): void}, SaveProps>((props, ref) => {
                     <ModalBody pb={6}>
                         <FormControl>
                             <FormLabel>タイトル</FormLabel>
-                            <Input onChange={(e) => setTitle(e.target.value)}/>
+                            <Input onChange={(e: { target: { value: SetStateAction<string>; }; }) => setTitle(e.target.value)}/>
                         </FormControl>
                     </ModalBody>
                     <ModalFooter>
@@ -38,12 +37,10 @@ const SaveForm = forwardRef<{toggle(): void}, SaveProps>((props, ref) => {
                             variant={"outline"}
                             colorScheme={"twitter"}
                             onClick={() => {
-                                if (saveButtonRef.current)
-                                    // @ts-ignore
+                                if (saveButtonRef.current) {
                                     saveButtonRef.current.href = URL.createObjectURL(stringToFile(title, [props.content]));
-                                    // click functionにtype設定されてないけど動くのでignore
-                                    // @ts-ignore
                                     saveButtonRef.current.click();
+                                }
                             }}>
                         保存
                     </Button>

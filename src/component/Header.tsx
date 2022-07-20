@@ -2,7 +2,7 @@ import {Heading, HStack, IconButton, Spacer, useColorMode} from "@chakra-ui/reac
 import {FaMoon, FaSun} from "react-icons/fa";
 import React from "react";
 
-const Header: React.VFC = () => {
+const Header: React.FC = () => {
     const {colorMode, toggleColorMode} = useColorMode();
     return(
         <HStack>

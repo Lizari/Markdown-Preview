@@ -1,6 +1,13 @@
-import {Post} from "@/entity/Post";
 import {Config} from "@/libs/Config";
 import axios from "axios";
+
+type PostArticleData = {
+    title: string,
+    description: string,
+    thumbnail: string,
+    tags: string[],
+    content: string
+}
 
 const client = axios.create({
     baseURL: Config.API_URL,
@@ -8,20 +15,20 @@ const client = axios.create({
 });
 
 export const get = () => {
-    return client.get("/blog/all?include=true");
+    return client.get("/article");
 }
 
-export const post = (id: string, password: string, props: Post): Promise<boolean | undefined> => {
+export const postArticle = (id: string, password: string, article: PostArticleData): Promise<boolean | undefined> => {
     const formData = new FormData();
     const data = [
         "===",
-        `title: ${props.title}`,
-        `description: ${props.description}`,
-        `thumbnail: ${props.thumbnail}`,
-        `tags: ${props.tags}`,
+        `title: ${article.title}`,
+        `description: ${article.description}`,
+        `thumbnail: ${article.thumbnail}`,
+        `tags: ${article.tags}`,
         "===",
-        ...props.content.split(/\r?\n/)].join("\n");
-    formData.append("file", stringToFile(props.title, [data]));
+        ...article.content.split(/\r?\n/)].join("\n");
+    formData.append("file", stringToFile(article.title, [data]));
 
     return client.post("/blog/upload", formData, {
         auth: {
