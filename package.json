@@ -13,6 +13,7 @@
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@types/react-syntax-highlighter": "^15.5.3",
+    "@typescript-eslint/eslint-plugin": "^5.30.7",
     "axios": "^0.27.2",
     "framer-motion": "^6.5.1",
     "gray-matter": "^4.0.3",
