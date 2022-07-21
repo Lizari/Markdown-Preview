@@ -23,7 +23,7 @@ type FormProps = {
 }
 
 const UploadForm = forwardRef<{toggle(): void}, FormProps>((props, ref) => {
-    const [id, setID] = useState("");
+    const [userid, setUserID] = useState("");
     const [password, setPassword] = useState("");
     const [title, setTitle] = useState(props.article.title);
     const [description, setDescription] = useState(props.article.description);
@@ -47,8 +47,8 @@ const UploadForm = forwardRef<{toggle(): void}, FormProps>((props, ref) => {
                 <ModalCloseButton/>
                 <ModalBody pb={6}>
                     <FormControl isRequired>
-                        <FormLabel>ID</FormLabel>
-                        <Input value={id} onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setID(e.target.value)}/>
+                        <FormLabel>UserID</FormLabel>
+                        <Input value={userid} onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setUserID(e.target.value)}/>
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel>パスワード</FormLabel>
@@ -85,7 +85,7 @@ const UploadForm = forwardRef<{toggle(): void}, FormProps>((props, ref) => {
                             colorScheme={result ? "blue" : "red"}
                             mr={2}
                             onClick={async () => {
-                                const result: boolean | undefined = await postArticle(id, password, {
+                                const result: boolean | undefined = await postArticle(userid, password, {
                                     id: props.article.id,
                                     title: title,
                                     description: description,

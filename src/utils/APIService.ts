@@ -12,7 +12,6 @@ type PostArticleData = {
 
 const client = axios.create({
     baseURL: Config.API_URL,
-    withCredentials: false,
 });
 
 export const get = () => {
