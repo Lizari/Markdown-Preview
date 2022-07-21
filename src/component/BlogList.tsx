@@ -14,18 +14,18 @@ import matter from "gray-matter";
 import { Article } from "@/entity/Article";
 
 type Props = {
-    setContent: Dispatch<SetStateAction<string>>
+    setArticle: Dispatch<SetStateAction<Article>>
 }
 
 const BlogList = forwardRef<{toggle(): void}, Props>((props, ref) => {
     const [isOpen, toggleOpen] = useBoolean(false);
-    const [data, setData] = useState<Article[]>([]);
+    const [articles, setArticles] = useState<Article[]>([]);
 
     useImperativeHandle(ref, () => ({
         toggle: async () => {
             toggleOpen.toggle();
 
-            setData(await get().then((result) => result.data));
+            setArticles(await get().then((result) => result.data));
         }
     }), [])
 
@@ -37,12 +37,12 @@ const BlogList = forwardRef<{toggle(): void}, Props>((props, ref) => {
                 <DrawerHeader>Blog List</DrawerHeader>
                 <DrawerBody>
                     <Stack>
-                        {data.map((value: Article) => {
+                        {articles.map((value: Article) => {
                             return (
                                 <Box>
                                     <Button onClick={() => {
                                         toggleOpen.toggle();
-                                        props.setContent(base64Decoder(value.content));
+                                        props.setArticle(value);
                                     }}>{value.title}
                                     </Button>
                                     <Text fontSize={"sm"} color={"gray.500"}>{value.description}</Text>

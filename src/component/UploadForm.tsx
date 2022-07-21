@@ -16,18 +16,19 @@ import {
     useBoolean
 } from "@chakra-ui/react";
 import { postArticle } from "@/utils/APIService";
+import { Article } from "@/entity/Article";
 
 type FormProps = {
-    content: string
+    article: Article
 }
 
 const UploadForm = forwardRef<{toggle(): void}, FormProps>((props, ref) => {
     const [id, setID] = useState("");
     const [password, setPassword] = useState("");
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [thumbnail, setThumbnail] = useState("");
-    const [tags, setTags] = useState([""]);
+    const [title, setTitle] = useState(props.article.title);
+    const [description, setDescription] = useState(props.article.description);
+    const [thumbnail, setThumbnail] = useState(props.article.thumbnail);
+    const [tags, setTags] = useState(props.article.tags);
     const [isOpen, toggleOpen] = useBoolean(false);
     const [result, setResult] = useState(false);
 
@@ -85,11 +86,12 @@ const UploadForm = forwardRef<{toggle(): void}, FormProps>((props, ref) => {
                             mr={2}
                             onClick={async () => {
                                 const result: boolean | undefined = await postArticle(id, password, {
+                                    id: props.article.id,
                                     title: title,
                                     description: description,
                                     thumbnail: thumbnail,
                                     tags: tags,
-                                    content: props.content
+                                    content: props.article.content
                                 });
                                 if (result) setResult(result);
                             }

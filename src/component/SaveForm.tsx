@@ -2,9 +2,10 @@ import {forwardRef, SetStateAction, useImperativeHandle, useRef, useState} from 
 import {Button, FormControl, FormLabel, Input, useBoolean} from "@chakra-ui/react";
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay} from "@chakra-ui/modal";
 import {stringToFile} from "@/utils/APIService";
+import { Article } from "@/entity/Article";
 
 type SaveProps = {
-    content: string,
+    article: Article,
 }
 
 const SaveForm = forwardRef<{toggle(): void}, SaveProps>((props, ref) => {
@@ -38,7 +39,7 @@ const SaveForm = forwardRef<{toggle(): void}, SaveProps>((props, ref) => {
                             colorScheme={"twitter"}
                             onClick={() => {
                                 if (saveButtonRef.current) {
-                                    saveButtonRef.current.href = URL.createObjectURL(stringToFile(title, [props.content]));
+                                    saveButtonRef.current.href = URL.createObjectURL(stringToFile(title, [props.article.content]));
                                     saveButtonRef.current.click();
                                 }
                             }}>
